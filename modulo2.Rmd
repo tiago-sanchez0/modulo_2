@@ -1,0 +1,472 @@
+---
+title: "Modulo 2"
+subtitle: "Calculito"
+date: "2026-04-08"
+output:
+  html_document: default
+  pdf_document: default
+---
+  
+## Introducción
+
+Este es un documento en R Markdown. Permite generar HTML o Word combinando texto y código.
+El lenguaje R es una poderosa herramienta matemática y estadística. En este reporte generado con R Markdown, analizaremos la resolución de distintos problemas y evaluaremos la calidad de diferentes algoritmos implementados.
+
+
+## Probando primeros comandos de R
+
+R es un leguaje muy parecido a matlab y trabaja con variables que en general pueden ser matrices.
+
+
+```{r}
+A <- 38
+A <- 40
+B <- 60
+C <- B - A
+C
+```
+
+
+## Uso de data sets o base de datos internos de R
+
+Usando el comando *data()* en la consola obtenemos distintos datos ya cargados en la base de datos de R, estos datos estan cargados en tablas de las cuales podemos elegir columnas especificas si escribimos el signo *\$* despues del comando de informacion especifico que queremos.
+
+También está el comando *summary()*, que es una de las herramientas más útiles y rápidas que tiene R para hacer estadística descriptiva básica.
+
+```{r}
+# Planteamos el dataset
+data(cars)
+```
+
+```{r}
+# Usamos el símbolo $ para extraer SOLO la columna de velocidades (speed)
+velocidades <- cars$speed
+
+# Mostramos los primeros 6 valores de esa columna aislada
+head(velocidades)
+```
+
+```{r}
+summary(cars)
+```
+
+## Comando plot (Gráficos)
+
+Es un comando que sirve para graficar cualquier fuente de datos que le asignemos: Tenemos la posibilidad de asignar nombres a las variables o hacer cambios del grafico, en caso de no saber el comando podemos escribir **plot** en la consola, a la derecha nos va a abrir una pestaña y ahí tocar Generic X-Y Plotting y ahi nos va a explicar cada comando
+
+
+```{r}
+plot(pressure, type = "s",
+     main = "Presión del gas ideal",
+     ylab = "hPa",
+     xlab = "K")
+```
+
+## Funciones estadísticas
+
+Otro comando usado es el comando *rnorm*. Este lo que hace es generar datos aleatorios, pero forzando a que esos datos sigan la forma de una Distribución Normal (la famosa campana de Gauss).
+
+Podemos asignarle ciertos parámetros si queremos: *Tamaño de la muestra  * **n** (es la cantidad de datos que le pides a R que invente, en este caso 350) *Media* (el valor central, en este caso 22), o *Desviación estándar* (Representa la dispersión o el "error experimental", en este caso, 5).
+
+
+```{r}
+
+z1 <- rnorm(350, 22, 5)
+z1
+
+```
+
+
+```{r}
+w1 <- length(z1)
+w1
+
+x1 <- 500:849
+x1
+
+plot(z1, x1)
+
+```
+
+El comando *hist()* genera un histograma.
+
+```{r}
+hist(z1, main = "Histograma de edades", breaks = 60)
+
+```
+
+El comando *density()* calcula la densidad de probabilidad. Es la versión matemática, suavizada y continua del histograma.
+
+```{r}
+density(z1,type="b")
+```
+
+
+```{r}
+plot(density(z1),type="b")
+```
+
+
+---
+
+## Ejercicio 1: Designación
+
+**Consigna:** Las ultimas 3 cifras del DNI son 858, crear una variable que tenga ese número
+
+```{r}
+
+DNI <- 858
+
+```
+
+**Consigna:** Crear un vector del 1 al 858.
+
+```{r}
+secuencia_dni <- 1:858
+secuencia_dni
+```
+
+---
+
+## Ejercicio 2: Uso de for
+
+**Consigna:** Calcular la suma de todos los valores del vector *secuencia_dni* usando un for:
+
+```{r}
+Total <- 0
+valor_final <- length(secuencia_dni)
+
+for (i in 1:valor_final) {
+  Total <- Total + i
+}
+
+Total
+```
+
+---
+
+## Ejercicio 3: Phyton
+
+**Consigna:** Repetir el ejercicio anterior pero en Phyton
+
+```{python}
+# --- Ejercicio 1 ---
+# Consigna: Crear una variable con las últimas 3 cifras del DNI (858)
+dni = 858
+
+# Consigna: Crear un vector (lista) del 1 al 858
+# En Python, range(1, 804) genera números del 1 al 858
+secuencia_dni = list(range(1, dni + 1))
+
+# --- Ejercicio 2 ---
+# Calcular la suma de todos los valores usando un bucle 'for'
+total = 0
+
+for i in secuencia_dni:
+    total += i
+
+# Mostrar el resultado final
+print(f"La suma total es: {total}")
+
+
+```
+
+----
+
+## Ejercicio 4: Medición de tiempo (sys.time) 
+
+**Consigna:**¿Cuanto tarda en correr el código del ejercicio 2?
+
+Usamos el comando **sys.time**
+
+```{r}
+inicio <- Sys.time()
+total <- 0
+valor_final <- 10000000*length(secuencia_dni)
+for (i in 1:valor_final)
+total <- total + i  
+total
+final <- Sys.time()
+final-inicio
+```
+
+---
+
+## Ejercicio 5: 2da medición de tiempo (tictoc)
+
+**Consigna:** Aplicar la consigna anterior pero aprendiendo a usar el comando **tictoc**
+
+```{r}
+library(tictoc)
+
+# Iniciamos el cronómetro asignándole un nombre descriptivo a la prueba
+tic("Tiempo de ejecución")
+
+# Inicio del bloque a medir
+Total<-0
+valor_final<-length(secuencia_dni)
+
+for(i in 1:valor_final) {
+Total<-Total + i
+}
+# Fin del bloque a medir
+
+#Se "detiene" el cronómetro. 
+
+#Esto imprimirá el tiempo transcurrido en pantalla.
+toc()
+
+#Imprimimos la variable Total para verificar que el cálculo matemático se hizo bien
+Total
+```
+
+---
+
+## Ejercicio 6: Secuencia
+
+**Consigna:** Generar secuencia de 2 en 2 hasta 50000
+
+```{r}
+inicio_for <- Sys.time()
+
+A <- numeric(50000)
+for (i in 1:50000) {
+  A[i] <- i * 2
+}
+
+final_for <- Sys.time()
+tiempo_for <- final_for - inicio_for
+```
+
+Secuencia con función de R:
+
+```{r}
+inicio_seq <- Sys.time()
+
+B <- seq(2, 100000, by = 2)
+
+final_seq <- Sys.time()
+tiempo_seq <- final_seq - inicio_seq
+
+# Resultados
+tiempo_for
+tiempo_seq
+```
+
+---
+
+## Ejercicio 7: Serie de Fibonacci
+
+**Consigna:** Generar sucesión o serie de Fibonacci hasta superar 1.000.000
+
+```{r}
+# Generar Fibonacci hasta superar 1.000.000
+
+fibonacci <- c(0,1)
+iteraciones <- 2
+
+while (fibonacci[length(fibonacci)] <= 1000000) {
+  nuevo <- fibonacci[length(fibonacci)] + fibonacci[length(fibonacci)-1]
+  fibonacci <- c(fibonacci, nuevo)
+  iteraciones <- iteraciones + 1
+}
+
+fibonacci
+iteraciones
+
+```
+
+---
+
+## Ejercicio 8: Definición matemática recurrente
+
+**Consigna:**¿Cuantas iteraciones se necesitan para generar un número de la serie mayor que 1.000.000?
+
+```{r}
+f0<-0   #Valores iniciales
+f1<-1
+f2<-0 
+i<-0  #Número de iteraciones incial
+valorfinal<-1000000 #Umbral
+
+while (f2<valorfinal) {
+  
+  f2=f0+f1
+  f0=f1
+  f1=f2
+  i<-i+1
+  
+}
+f2
+i
+```
+
+---
+
+## Ejercicio 9: Método Burbuja (Bubble Sort)
+
+**Consigna:** Compara la performance de ordenación del método burbuja vs el método sort de R.
+
+```{r}
+x <- sample(1:20000, 20000)
+
+burbuja <- function(x) {
+  n <- length(x)
+  for (j in 1:(n-1)) {
+    for (i in 1:(n-j)) {
+      if (x[i] > x[i+1]) {
+        temp <- x[i]
+        x[i] <- x[i+1]
+        x[i+1] <- temp
+      }
+    }
+  }
+  return(x)
+}
+```
+
+Comparación:
+
+```{r}
+system.time({
+  res1 <- burbuja(x)
+})
+
+system.time({
+  res2 <- sort(x)
+})
+
+```
+
+
+---
+
+## Ejercicio 10: Penitencia de Newton
+
+En archivo aparte
+
+---
+
+## Análisis de Rendimiento: Ordenamiento y Agrupación
+
+```{r graficos-violin, message=FALSE, warning=FALSE}
+library(microbenchmark)
+library(ggplot2)
+
+# Definimos la función del método burbuja (del apunte original)
+burbuja <- function(x){
+  n <- length(x)
+  for(j in 1:(n-1)) {
+    for(i in 1:(n-j)){
+      if(x[i] > x[i+1]){
+        temp <- x[i]
+        x[i] <- x[i+1]
+        x[i+1] <- temp
+      }
+    }
+  }
+  return(x)
+}
+
+# Generamos una muestra aleatoria moderada para la prueba
+set.seed(123)
+muestra <- sample(1:1000, 400, replace = TRUE)
+
+# Ejecutamos el benchmarking
+mbm_orden <- microbenchmark(
+  Burbuja = burbuja(muestra),
+  Sort_Nativo = sort(muestra),
+  times = 20 # Repetimos 20 veces para tener una buena distribución
+)
+
+# Visualizamos con gráfico de violín
+autoplot(mbm_orden) + 
+  ggtitle("Distribución de Tiempos: Burbuja vs Sort Nativo") +
+  theme_minimal()
+
+# Generamos una matriz de datos simulada (ej: variables de mantenimiento industrial)
+set.seed(42)
+datos_industriales <- matrix(rnorm(5000), ncol = 5)
+
+# Benchmarking del algoritmo K-Means
+mbm_kmeans <- microbenchmark(
+  Kmeans_Rapido = kmeans(datos_industriales, centers = 4, nstart = 1),
+  Kmeans_Preciso = kmeans(datos_industriales, centers = 4, nstart = 25),
+  times = 50
+)
+
+# Visualizamos con gráfico de violín
+autoplot(mbm_kmeans) + 
+  ggtitle("Performance de K-Means: Impacto del parámetro nstart") +
+  theme_minimal()
+```
+
+
+---
+```{r}
+# Librerías necesarias
+install.packages("ggplot2")
+install.packages("cluster")
+
+library(ggplot2)
+library(cluster)
+
+# 1. Simulación de datos de sensores (Normalizados)
+set.seed(123)
+vibracion <- c(rnorm(100, 2, 0.5), rnorm(100, 5, 0.8), rnorm(100, 8, 0.6))
+temperatura <- c(rnorm(100, 30, 5), rnorm(100, 50, 7), rnorm(100, 70, 5))
+df <- data.frame(vibracion, temperatura)
+
+# Escalamiento (Paso crítico mencionado en tu texto)
+df_scaled <- scale(df)
+
+# 2. Ejecución de K-means (k=3)
+fit <- kmeans(df_scaled, centers = 3, nstart = 25)
+df$cluster <- as.factor(fit$cluster)
+
+# 3. Medición de Performance: Coeficiente de Silueta
+sil <- silhouette(fit$cluster, dist(df_scaled))
+avg_sil <- mean(sil[, 3])
+cat("El coeficiente de silueta promedio es:", avg_sil)
+
+# 4. Visualización con Gráfico de Violín
+ggplot(df, aes(x = cluster, y = vibracion, fill = cluster)) +
+  geom_violin(trim = FALSE, alpha = 0.7) +
+  geom_boxplot(width = 0.1, fill = "white") +
+  labs(title = "Distribución de Vibración por Cluster Industrial",
+       subtitle = paste("Performance (Silueta):", round(avg_sil, 2)),
+       x = "Segmento de Maquinaria (Cluster)",
+       y = "Nivel de Vibración") +
+  theme_minimal()
+```
+
+## Ejercicio Matrices e Inversa
+
+En este ejercicio, crearemos una matriz cuadrada de 3x3 utilizando el valor de tu DNI (030) y otros valores para asegurar que la matriz sea invertible (que su determinante sea distinto de cero). Luego, utilizaremos la función solve() que es la estándar en R para obtener la matriz inversa.
+
+```{r}
+dni_val <- 30
+
+datos <- c(dni_val, 10, 15, 
+           2, 5, 8, 
+           7, 1, 9)
+
+A <- matrix(datos, nrow = 3, ncol = 3, byrow = TRUE)
+
+cat("### Matriz Original (A):\n")
+print(A)
+
+determinante <- det(A)
+cat("\nDeterminante de la matriz:", determinante, "\n")
+
+if (determinante != 0) {
+  A_inversa <- solve(A)
+  cat("\n### Matriz Inversa (A^-1):\n")
+  print(A_inversa)
+  
+  identidad <- round(A %*% A_inversa, 2)
+  cat("\n### Verificación (A * A^-1 = Identidad):\n")
+  print(identidad)
+} else {
+  cat("\nLa matriz es singular y no tiene inversa.")
+}
